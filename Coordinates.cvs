@@ -1,30 +1,30 @@
-"","V1","V2","V3","Station","lon","lat","lat2","lon2"
-"1","19th Ave/Montebello",NA,"12/27/2008","19th Ave/Montebello Station,Phoenix",NA,NA,NA,NA
-"2","19th Ave/Camelback",NA,"12/27/2008","19th Ave/Camelback Station,Phoenix",NA,NA,NA,NA
-"3","7th Ave/Camelback",NA,"12/27/2008","7th Ave/Camelback Station,Phoenix",NA,NA,NA,NA
-"4","Central Ave/Camelback",NA,"12/27/2008","Central Ave/Camelback Station,Phoenix",NA,NA,NA,NA
-"5","Campbell/Central Ave",NA,"12/27/2008","Campbell/Central Ave Station,Phoenix",NA,NA,NA,NA
-"6","Indian School/Central Ave",NA,"12/27/2008","Indian School/Central Ave Station,Phoenix",NA,NA,NA,NA
-"7","Osborn/Central Ave",NA,"12/27/2008","Osborn/Central Ave Station,Phoenix",NA,NA,NA,NA
-"8","Thomas/Central Ave",NA,"12/27/2008","Thomas/Central Ave Station,Phoenix",NA,NA,NA,NA
-"9","Encanto/Central Ave",NA,"12/27/2008","Encanto/Central Ave Station,Phoenix",NA,NA,NA,NA
-"10","McDowell/Central Ave",NA,"12/27/2008","McDowell/Central Ave Station,Phoenix",NA,NA,NA,NA
-"11","Roosevelt/Central Ave",NA,"12/27/2008","Roosevelt/Central Ave Station,Phoenix",NA,NA,NA,NA
-"12","Van Buren/Central Ave",NA,"12/27/2008","Van Buren/Central Ave Station,Phoenix",NA,NA,NA,NA
-"13","Washington/Central Ave",NA,"12/27/2008","Washington/Central Ave Station,Phoenix",NA,NA,NA,NA
-"14","3rd St/Washington",NA,"12/27/2008","3rd St/Washington Station,Phoenix",NA,NA,NA,NA
-"15","12th St/Washington",NA,"12/27/2008","12th St/Washington Station,Phoenix",NA,NA,NA,NA
-"16","24th St/Washington",NA,"12/27/2008","24th St/Washington Station,Phoenix",NA,NA,NA,NA
-"17","38th St/Washington",NA,"12/27/2008","38th St/Washington Station,Phoenix",NA,NA,NA,NA
-"18","44th St/Washington",NA,"12/27/2008","44th St/Washington Station,Phoenix",NA,NA,NA,NA
-"19","50th St/Washington",NA,"12/27/2008","50th St/Washington Station,Phoenix",NA,NA,NA,NA
-"20","Priest Dr/Washington",NA,"12/27/2008","Priest Dr/Washington Station,Phoenix",NA,NA,33.442,-111.956
-"21","Center Pkwy/Washington",NA,"12/27/2008","Center Pkwy/Washington Station,Phoenix",NA,NA,NA,NA
-"22","Mill Ave/3rd St",NA,"12/27/2008","Mill Ave/3rd St Station,Phoenix",NA,NA,33.427,-111.94
-"23","Veteran's Way/College",NA,"12/27/2008","Veteran's Way/College Station,Phoenix",NA,NA,33.426,-111.936
-"24","University Dr/Rural Rd",NA,"12/27/2008","University Dr/Rural Rd Station,Phoenix",NA,NA,NA,NA
-"25","Dorsey/Apache Blvd",NA,"12/27/2008","Dorsey/Apache Blvd Station,Phoenix",NA,NA,NA,NA
-"26","McClintock/Apache Blvd",NA,"12/27/2008","McClintock/Apache Blvd Station,Phoenix",NA,NA,NA,NA
-"27","Smith-Martin/Apache Blvd",NA,"12/27/2008","Smith-Martin/Apache Blvd Station,Phoenix",NA,NA,NA,NA
-"28","Price-101 Fwy/Apache Blvd",NA,"12/27/2008","Price-101 Fwy/Apache Blvd Station,Phoenix",NA,NA,33.415,-111.888
-"29","Sycamore/Main St",NA,"12/27/2008","Sycamore/Main St Station,Phoenix",NA,NA,33.415,-111.87
+"","V1","V2","V3","Station","lon","lat","address","lat2","lon2"
+"1","19th Ave/Montebello",NA,"12/27/2008","19th Ave/Montebello Station,Phoenix",-112.099729,33.520604,"montebello/ 19th ave, phoenix, az 85015, usa",33.520604,-112.099729
+"2","19th Ave/Camelback",NA,"12/27/2008","19th Ave/Camelback Station,Phoenix",-112.098769,33.5095401,"19th ave/camelback, phoenix, az 85015, usa",33.5095401,-112.098769
+"3","7th Ave/Camelback",NA,"12/27/2008","7th Ave/Camelback Station,Phoenix",-112.083348,33.509307,"7th ave/camelback, phoenix, az 85013, usa",33.509307,-112.083348
+"4","Central Ave/Camelback",NA,"12/27/2008","Central Ave/Camelback Station,Phoenix",-112.0739115,33.5088574,"central ave/ camelback, phoenix, az 85013, usa",33.5088574,-112.0739115
+"5","Campbell/Central Ave",NA,"12/27/2008","Campbell/Central Ave Station,Phoenix",-112.073784,33.500952,"campbell/central ave, phoenix, az 85013, usa",33.500952,-112.073784
+"6","Indian School/Central Ave",NA,"12/27/2008","Indian School/Central Ave Station,Phoenix",-112.073789,33.49575,"indian school/central ave, phoenix, az 85012, usa",33.49575,-112.073789
+"7","Osborn/Central Ave",NA,"12/27/2008","Osborn/Central Ave Station,Phoenix",-112.073806,33.486848,"osborn/central ave, phoenix, az 85012, usa",33.486848,-112.073806
+"8","Thomas/Central Ave",NA,"12/27/2008","Thomas/Central Ave Station,Phoenix",-112.073774,33.481228,"thomas/central ave, phoenix, az 85012, usa",33.481228,-112.073774
+"9","Encanto/Central Ave",NA,"12/27/2008","Encanto/Central Ave Station,Phoenix",-112.073816,33.473651,"encanto/central ave, phoenix, az 85003, usa",33.473651,-112.073816
+"10","McDowell/Central Ave",NA,"12/27/2008","McDowell/Central Ave Station,Phoenix",-112.0738172,33.4649652,"mcdowell/central ave, phoenix, az 85003, usa",33.4649652,-112.0738172
+"11","Roosevelt/Central Ave",NA,"12/27/2008","Roosevelt/Central Ave Station,Phoenix",-112.073936,33.459339,"roosevelt/central ave, phoenix, az 85003, usa",33.459339,-112.073936
+"12","Van Buren/Central Ave",NA,"12/27/2008","Van Buren/Central Ave Station,Phoenix",-112.0737301,33.451139,"van buren/central ave, phoenix, az 85004, usa",33.451139,-112.0737301
+"13","Washington/Central Ave",NA,"12/27/2008","Washington/Central Ave Station,Phoenix",-112.0739222,33.4488943,"washington/central ave, phoenix, az 85004, usa",33.4488943,-112.0739222
+"14","3rd St/Washington",NA,"12/27/2008","3rd St/Washington Station,Phoenix",-112.0706088,33.4483495,"3rd st/washington, phoenix, az 85004, usa",33.4483495,-112.0706088
+"15","12th St/Washington",NA,"12/27/2008","12th St/Washington Station,Phoenix",-112.0572591,33.4482504,"12th st/washington, phoenix, az 85034, usa",33.4482504,-112.0572591
+"16","24th St/Washington",NA,"12/27/2008","24th St/Washington Station,Phoenix",-112.0292996,33.4481913,"24th st/washington, phoenix, az 85034, usa",33.4481913,-112.0292996
+"17","38th St/Washington",NA,"12/27/2008","38th St/Washington Station,Phoenix",-111.999896,33.448104,"38th st/washington, phoenix, az 85034, usa",33.448104,-111.999896
+"18","44th St/Washington",NA,"12/27/2008","44th St/Washington Station,Phoenix",-111.987942,33.4481844,"44th st/washington, 4299, 4399 e washington st, phoenix, az 85008, usa",33.4481844,-111.987942
+"19","50th St/Washington",NA,"12/27/2008","50th St/Washington Station,Phoenix",-111.975266,33.446983,"50th st/washington st, phoenix, az 85034, usa",33.446983,-111.975266
+"20","Priest Dr/Washington",NA,"12/27/2008","Priest Dr/Washington Station,Phoenix",-111.9608067,33.4138032,"priest dr, phoenix, az, usa",33.442,-111.956
+"21","Center Pkwy/Washington",NA,"12/27/2008","Center Pkwy/Washington Station,Phoenix",-111.94664,33.438064,"center pkwy/washington, tempe, az 85288, usa",33.438064,-111.94664
+"22","Mill Ave/3rd St",NA,"12/27/2008","Mill Ave/3rd St Station,Phoenix",-112.0740373,33.4483771,"phoenix, az, usa",33.427,-111.94
+"23","Veteran's Way/College",NA,"12/27/2008","Veteran's Way/College Station,Phoenix",-112.0740373,33.4483771,"phoenix, az, usa",33.426,-111.936
+"24","University Dr/Rural Rd",NA,"12/27/2008","University Dr/Rural Rd Station,Phoenix",-111.926978,33.4207323,"university dr/rural rd, tempe, az 85281, usa",33.4207323,-111.926978
+"25","Dorsey/Apache Blvd",NA,"12/27/2008","Dorsey/Apache Blvd Station,Phoenix",-111.916907,33.414769,"dorsey ln/apache blvd, tempe, az 85281, usa",33.414769,-111.916907
+"26","McClintock/Apache Blvd",NA,"12/27/2008","McClintock/Apache Blvd Station,Phoenix",-111.9082666,33.4147381,"mcclintock/apache blvd, tempe, az 85281, usa",33.4147381,-111.9082666
+"27","Smith-Martin/Apache Blvd",NA,"12/27/2008","Smith-Martin/Apache Blvd Station,Phoenix",-111.900783,33.414791,"smith-martin/apache blvd, tempe, az 85281, usa",33.414791,-111.900783
+"28","Price-101 Fwy/Apache Blvd",NA,"12/27/2008","Price-101 Fwy/Apache Blvd Station,Phoenix",-112.0740373,33.4483771,"phoenix, az, usa",33.415,-111.888
+"29","Sycamore/Main St",NA,"12/27/2008","Sycamore/Main St Station,Phoenix",-112.0740373,33.4483771,"phoenix, az, usa",33.415,-111.87
