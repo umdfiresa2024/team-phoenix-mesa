@@ -7,28 +7,34 @@ editor: visual
 
 ## Research Question
 
--   What is the impact of air pollution caused by light rail stations in Phoenix and Mesa?
+-   What is the impact of air pollution caused by light rail stations on demographics in Phoenix and Mesa?
 
 ## Hypothesis
 
--   There will be significantly more impact on the surrounding area when multiple stations are extremely close to each other, as there will be more activity in that general area in comparison to less concentrated locations.
+-   There will be significantly more impact on the surrounding area when multiple stations are extremely close to each other, as the effects of the stations will be compounded by multiple of them being in the same place.
 
 ## Data
 
+```{r}
+library("tidyverse")
+library("knitr")
+library("terra")
+library("maptiles")
+```
+
 -   Timeline of interest
 
-    -   Given the data we have access to from NASA, the only stations that existed in the timeframe all opened in December 27th 2008. We want to track the pollution in an equal timeframe before and after the opening, so we chose the timeframe of January 1st 2004 to January 1st 2012
+    -   Given the time frame of the data we have access to from NASA, the only stations that existed then all opened in December 27th 2008. We want to track the pollution in an equal timeframe before and after the opening, so we chose the timeframe of January 1st 2004 to January 1st 2012
 
--   Stations locations
+-   Station locations
 
-    ```{r}
-    library(tidyverse)
-    library(knitr)
+    -   We used a Google API key in order to collect the coordinates of each of these stations, manually collecting the few that Google didn't automatically find.
 
-    c<-read.csv("Coordinates.csv") %>%
-      select(Station, lat2, lon2)
-    kable(c)
-    ```
+        ```{r}
+        c<-read.csv("Coordinates.csv") %>%
+          select(Station, lat2, lon2)
+        kable(c)
+        ```
 
 -   Factors that impact PM2.5 in the city (Sebastian)
 
@@ -36,4 +42,25 @@ editor: visual
 
 ```
 
-## 
+## Plotting Stations
+
+Once we had the coordinates, we could plot them out and create a map displaying the stations and the line they all service, as well as a circular buffer representing the station's area of effect.
+
+```{r}
+stations <- read.csv("Coordinates.csv")
+sources <- read.csv("Poll_Coordinates.csv")
+
+df<-stations |>
+  select(lon2, lat2)
+
+df2<-sources |>
+  select(lon2, lat2)
+
+#converts df into a spatvector
+x <- vect(df, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+
+plot(x)
+plot(y)
+
+```
