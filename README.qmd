@@ -7,26 +7,33 @@ editor: visual
 
 ## Research Question
 
+-   What is the impact of air pollution caused by light rail stations in Phoenix and Mesa?
+
 ## Hypothesis
+
+-   There will be significantly more impact on the surrounding area when multiple stations are extremely close to each other, as there will be more activity in that general area in comparison to less concentrated locations.
 
 ## Data
 
 -   Timeline of interest
 
+    -   Given the data we have access to from NASA, the only stations that existed in the timeframe all opened in December 27th 2008. We want to track the pollution in an equal timeframe before and after the opening, so we chose the timeframe of January 1st 2004 to January 1st 2012
+
 -   Stations locations
+
+    ```{r}
+    library(tidyverse)
+    library(knitr)
+
+    c<-read.csv("Coordinates.csv") %>%
+      select(Station, lat2, lon2)
+    kable(c)
+    ```
 
 -   Factors that impact PM2.5 in the city (Sebastian)
 
 ```{r}
-library("tidyverse")
-library("knitr")
-```
 
-```{r}
-c<-read.csv("Coordinates.csv") %>%
-  select(Station, lat2, lon2)
-
-kable(c)
 ```
 
 ## 
