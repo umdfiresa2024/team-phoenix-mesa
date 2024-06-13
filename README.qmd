@@ -1,0 +1,32 @@
+---
+title: "Progress Report"
+author: "William & Sebastian"
+format: gfm
+editor: visual
+---
+
+## Research Question
+
+## Hypothesis
+
+## Data
+
+-   Timeline of interest
+
+-   Stations locations
+
+-   Factors that impact PM2.5 in the city (Sebastian)
+
+```{r}
+library("tidyverse")
+library("knitr")
+```
+
+```{r}
+c<-read.csv("Coordinates.csv") %>%
+  select(Station, lat2, lon2)
+
+kable(c)
+```
+
+## 
