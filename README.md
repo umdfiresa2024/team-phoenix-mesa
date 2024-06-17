@@ -152,11 +152,6 @@ Coor_Combined<-rbind(df_station,df2)
   
 xprime <-vect(Coor_Combined, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
 
-
-
-
-
-
 #converts df into a spatvector
 x <- vect(df_station, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
 #y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
