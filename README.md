@@ -103,7 +103,17 @@ library("maptiles")
     | Price-101 Fwy/Apache Blvd Station,Phoenix | 33.41500 | -111.8880 |
     | Sycamore/Main St Station,Phoenix          | 33.41500 | -111.8700 |
 
-- Factors that impact PM2.5 in the city (Sebastian)
+## Factors that impact PM2.5 in the city 
+  There are several factors that impact the PM2.5 level in Maricopa County,this is the county that engulfs the Phoenix-Mesa area. These factors are ranging from construction sites, fires(from burning wood), congested traffics areas, powerplants around the city that give power 4.42 million people. The biggest out of all of these are powerplants and congested intersections. 
+  There are 11 major powerplants around Maricopa County and 2 heavily congested intersections. In a similar process, finding the location of these powerplants and intersections involve using a google API key to get the latitude and longitudes of each of these locations. This is the resulting file:
+  ```r
+  c<-read.csv("Poll_Coordinates.csv") %>%
+      select(Sources, lat2, lon2)
+    kable(c)
+```
+
+
+  
 
 ## Plotting Stations
 
