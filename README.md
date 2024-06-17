@@ -103,17 +103,7 @@ library("maptiles")
     | Price-101 Fwy/Apache Blvd Station,Phoenix | 33.41500 | -111.8880 |
     | Sycamore/Main St Station,Phoenix          | 33.41500 | -111.8700 |
 
-## Factors that impact PM2.5 in the city 
-  There are several factors that impact the PM2.5 level in Maricopa County,this is the county that engulfs the Phoenix-Mesa area. These factors are ranging from construction sites, fires(from burning wood), congested traffics areas, powerplants around the city that give power 4.42 million people. The biggest out of all of these are powerplants and congested intersections. 
-  There are 11 major powerplants around Maricopa County and 2 heavily congested intersections. In a similar process, finding the location of these powerplants and intersections involve using a google API key to get the latitude and longitudes of each of these locations. This is the resulting file:
-  ```r
-  c<-read.csv("Poll_Coordinates.csv") %>%
-      select(Sources, lat2, lon2)
-    kable(c)
-```
-
-
-  
+- Factors that impact PM2.5 in the city (Sebastian)
 
 ## Plotting Stations
 
@@ -145,3 +135,61 @@ plot(y)
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-4-2.png)
+
+``` r
+stations <- read.csv("Coordinates.csv")
+sources <- read.csv("Poll_Coordinates.csv")
+
+df_station <- stations %>%
+  select(lon2,lat2)
+  
+df2<- sources %>%
+  filter(Source != "SOURCE Arizona") %>%
+  select(lon2,lat2)
+
+Coor_Combined<-rbind(df_station,df2)
+
+  
+xprime <-vect(Coor_Combined, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+
+
+
+
+
+
+#converts df into a spatvector
+x <- vect(df_station, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+#y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+
+#ggplot(df_station,aes(x=lon2,y=lat2,color="Station"))+geom_point()
+
+
+#plot(x)
+#plot(y)
+
+#check unit of x
+
+
+#create a 1 km (1000 meter) buffer (radius)
+pts_buffer<-buffer(xprime, width = 400)
+
+#plot(pts_buffer)
+
+#approximate size of the background
+extent<-buffer(x, width = 400)
+
+bg <- get_tiles(ext(extent))
+
+plot(bg)
+
+#plot(x)
+lines(pts_buffer)
+points(xprime, col = "red")
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
+
+``` r
+#outfile <- "buffer.shp"
+#writeVector(pts_buffer, outfile, overwrite=TRUE)
+```

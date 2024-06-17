@@ -42,7 +42,7 @@ geo<-geo %>%
   mutate(lon2=ifelse(Station=="Sycamore/Main St Station,Phoenix", -111.870, lon2))
 
 
-write.csv(geo, "Coordinates.cvs")
+write.csv(geo, "Coordinates.csv")
 
 poll<-read.csv("Pollution Sources for Phoenix-Mesa - Sheet1.csv",header=F)
 
@@ -113,7 +113,15 @@ geo2<-geo2 %>%
   mutate(lon2=ifelse(Source=="West Phoenix Power Plant Arizona", -112.1583, lon2))
 
 
-write.csv(geo2, "Poll_Coordinates.cvs")
+geo2<-geo2 %>%
+  mutate(lat2=ifelse(Source=="Red Hawk Power Station Arizona", 33.334562, lat2))
+
+geo2<-geo2 %>%
+  mutate(lon2=ifelse(Source=="Red Hawk Power Station Arizona", -112.8406, lon2))
+
+
+
+write.csv(geo2, "Poll_Coordinates.csv")
 
 
 
