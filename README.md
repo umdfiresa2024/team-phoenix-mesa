@@ -8,10 +8,20 @@ William & Sebastian
 
 ## Hypothesis
 
-- There will be significantly more impact on the surrounding area when
-  multiple stations are extremely close to each other, as the effects of
-  the stations will be compounded by multiple of them being in the same
-  place.
+- The Light Rail in Phoenix-Mesa should help alleviate the amount of
+  PM2.5 being released into the air, helping decrease air quality
+  diseases around the area. Phoenix-Mesa has seen an increase of
+  population, it has had a 16.31% increase in population from 2004 to
+  2012, increasing further more as the years progress. this increase in
+  population is enough to congest roads and increase demand in power to
+  provide to the citizens. All of this can increase the levels in PM2.5.
+  the light rail will help alleviate by providing a faster, community
+  transportation that would decrease the amount of cars in the streets.
+  With less cars in the streets, roads can help decongest faster. So
+  Overall, the impact of the light rail to the air pollution in the
+  Phoenix-Mesa region (Maricopa County) will increase as more people use
+  the light rail, further reducing one of their biggest contributors of
+  PM2.5 polluters.
 
 ## Data
 
@@ -103,7 +113,39 @@ library("maptiles")
     | Price-101 Fwy/Apache Blvd Station,Phoenix | 33.41500 | -111.8880 |
     | Sycamore/Main St Station,Phoenix          | 33.41500 | -111.8700 |
 
-- Factors that impact PM2.5 in the city (Sebastian)
+- Factors that impact PM2.5 in the city
+
+  There are many factors that contribute to the PM2.5 level in the air
+  in Maricopa County, this is the Phoenix-Mesa area we are focusing on.
+  According to their Maricopa’s official website, some of the biggest
+  contributors of PM2.5 pollution include wood burning, power plants,
+  congested highways, construction sites, unpaved roads. Using the same
+  technique of acquiring their coordinates from Google API, we are able
+  to make a table that contains some of the biggest contributors around
+  this county, some more centralized in the city than others..
+
+``` r
+sources <- read.csv("Poll_Coordinates.csv") %>%
+    filter(Source != "SOURCE Arizona") %>%
+    select(Source,lat2,lon2)
+kable(sources)
+```
+
+| Source                                                |     lat2 |      lon2 |
+|:------------------------------------------------------|---------:|----------:|
+| Intersection of Interstate 17 & Interstate 10 Arizona | 33.46184 | -112.1083 |
+| Intersection of Interstate 10 & U.S. 60 Arizona       | 33.38801 | -111.9676 |
+| Palo Verde Nuclear generation Station Arizona         | 33.38800 | -112.8617 |
+| Agua Fria Generating Station Arizona                  | 33.55432 | -112.2138 |
+| Arlington Valley Plant Arizona                        | 33.34170 | -112.8897 |
+| Gila River Generating Station Arizona                 | 32.97500 | -112.6944 |
+| Harquahala Generating Station Arizona                 | 33.47573 | -113.1136 |
+| Kyrene Power Plant Arizona                            | 33.35560 | -111.9353 |
+| Mesquite Power Plant Arizona                          | 33.34500 | -112.8642 |
+| Ocotillo Power Plant Arizona                          | 33.42320 | -111.9123 |
+| Red Hawk Power Station Arizona                        | 33.33456 | -112.8406 |
+| Santan Power Plant Arizona                            | 33.33250 | -111.7503 |
+| West Phoenix Power Plant Arizona                      | 33.44170 | -112.1583 |
 
 ## Plotting Stations
 
@@ -124,52 +166,33 @@ df2<-sources |>
 #converts df into a spatvector
 x <- vect(df, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
 y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-
+#these are the stations 
 plot(x)
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-4-1.png)
 
 ``` r
+#these are our sources of Pollution in Maricopa County
 plot(y)
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-4-2.png)
 
+This would then put buffers over our stations with a 1000m radius.
+Combining together a map background along with our points and their
+stations buffers, we get a more complete map.
+
 ``` r
-stations <- read.csv("Coordinates.csv")
-sources <- read.csv("Poll_Coordinates.csv")
-
-df_station <- stations %>%
-  select(lon2,lat2)
-  
-df2<- sources %>%
-  filter(Source != "SOURCE Arizona") %>%
-  select(lon2,lat2)
-
-Coor_Combined<-rbind(df_station,df2)
-
-  
-xprime <-vect(Coor_Combined, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-
-#converts df into a spatvector
-x <- vect(df_station, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-#y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-
-#ggplot(df_station,aes(x=lon2,y=lat2,color="Station"))+geom_point()
-
-
-#plot(x)
-#plot(y)
-
-#check unit of x
-
-
 #create a 1 km (1000 meter) buffer (radius)
-pts_buffer<-buffer(xprime, width = 400)
 
-#plot(pts_buffer)
+pts_buffer<-buffer(x, width = 400)
+plot(pts_buffer)
+```
 
+![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
+
+``` r
 #approximate size of the background
 extent<-buffer(x, width = 400)
 
@@ -177,14 +200,15 @@ bg <- get_tiles(ext(extent))
 
 plot(bg)
 
-#plot(x)
+#plotting the Stations and their buffers ,as well as sources of pollution
 lines(pts_buffer)
-points(xprime, col = "red")
+points(x, col = "red")
+points(y, col = "blue")
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
+![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
 
 ``` r
-#outfile <- "buffer.shp"
-#writeVector(pts_buffer, outfile, overwrite=TRUE)
+outfile <- "buffer.shp"
+writeVector(pts_buffer, outfile, overwrite=TRUE)
 ```
