@@ -1,6 +1,9 @@
 library(terra)
 library(tidyverse)
+
 files<-dir("G:/Shared drives/2024 FIRE Light Rail/DATA/GLDAS/")
+
+output<-c()
 
 for(i in 1822:4384){
   r<-rast(paste0("G:/Shared drives/2024 FIRE Light Rail/DATA/GLDAS/", files[i]))
@@ -18,7 +21,8 @@ for(i in 1822:4384){
     select(-ID)
   
   metdf$date<-files[i]
+  output<-rbind(output, metdf)
   print(files[i])
 }
 
-write.csv(metdf, "met_data.csv", row.names=F)
+write.csv(output, "met_data.csv", row.names=F)
