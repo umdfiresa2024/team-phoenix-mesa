@@ -19,5 +19,9 @@ is_holiday <- newdates %in% holidays$date
 merge1$is_holiday <- is_holiday
 merge1$dow <- weekdays(merge1$date)
 merge1$month <- format(merge1$date, "%m")
+dfm<-read.csv("met_data.csv")
+newdates2 <- as.Date(gsub("(....)(..)(..)(\\.020\\.nc4)", "\\1-\\2-\\3", dfm$date))
+dfm$date <- newdates2
+merge2<-merge(merge1, dfm, by.x="date", by.y="date")
 
-write.csv(merge1, "Big_Data.csv")
+write.csv(merge2, "Big_Data.csv")
