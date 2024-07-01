@@ -7,40 +7,25 @@ library("dplyr")
 stations <- read.csv("Coordinates.csv")
 sources <- read.csv("Poll_Coordinates.csv")
 
-df_station <- stations %>%
+df<- stations %>%
   select(lon2,lat2)
-  
+
 df2<- sources %>%
   filter(Source != "SOURCE Arizona") %>%
   select(lon2,lat2)
 
-Coor_Combined<-rbind(df_station,df2)
-
-  
-xprime <-vect(Coor_Combined, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-
-plot(xprime)
-
-
-
-
 #converts df into a spatvector
-x <- vect(df_station, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-#y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+x <- vect(df, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
 
-#ggplot(df_station,aes(x=lon2,y=lat2,color="Station"))+geom_point()
+plot(x)
+plot(y)
 
-
-#plot(x)
-#plot(y)
-
-#check unit of x
-crs(x)
 
 #create a 1 km (1000 meter) buffer (radius)
-pts_buffer<-buffer(xprime, width = 400)
+pts_buffer<-buffer(x, width = 400)
 
-#plot(pts_buffer)
+plot(pts_buffer)
 
 #approximate size of the background
 extent<-buffer(x, width = 400)
@@ -49,9 +34,10 @@ bg <- get_tiles(ext(extent))
 
 plot(bg)
 
-#plot(x)
+#plotting the Stations and their buffers ,as well as sources of pollution
 lines(pts_buffer)
-points(xprime, col = "red")
+points(x, col = "red")
+points(y, col = "blue")
 
-#outfile <- "buffer.shp"
-#writeVector(pts_buffer, outfile, overwrite=TRUE)
+outfile <- "buffer.shp"
+writeVector(pts_buffer, outfile, overwrite=TRUE)
