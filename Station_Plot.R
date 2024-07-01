@@ -3,8 +3,8 @@ library("terra")
 library("tidyverse")
 
 #city centroid
-stations <- read.csv("Coordinates.cvs")
-sources <- read.csv("Poll_Coordinates.cvs")
+stations <- read.csv("Coordinates.csv")
+sources <- read.csv("Poll_Coordinates.csv")
 
 df<-stations |>
   select(lon2, lat2)
@@ -34,10 +34,10 @@ bg <- get_tiles(ext(extent))
 
 plot(bg)
 
-plot(x)
+
 #points(x)
 lines(pts_buffer)
-points(y, col = "red")
+points(x, col = "red")
 
 outfile <- "buffer.shp"
 writeVector(pts_buffer, outfile, overwrite=TRUE)
