@@ -116,7 +116,7 @@ dem_frame<-data.frame()
 
 ```{r}
 buffdf<-as.data.frame(buff)
-buff2 <- subset(buff, buff$FID == 11)
+buff2 <- subset(buff, buff$FID == 1)
 buff2df <- as.data.frame(buff2)
 int<-crop(blockrace, buff2)
 

@@ -23,6 +23,7 @@ startdate<-as.Date("2004-12-01", format='%Y-%m-%d')
 enddate<-as.Date("2012-12-01", format='%Y-%m-%d')
 opendate<-as.Date("2008-12-27", format='%Y-%m-%d')
 conststart<-as.Date("2005-03-01", format='%Y-%m-%d')
+poldate<-as.Date("2008-03-26", format='%Y-%m-%d')
 ```
 
 ```{r}
@@ -45,8 +46,6 @@ df3<-df2 %>%
   mutate(lag_hum=lag(Qair_f_tavg)) %>%
   mutate(lag_hum2=lag_hum^2, lag_hum3=lag_hum^3, lag_hum4=lag_hum^4) %>%
   mutate(MetroTime=MetroOpen*t, MetroTime2=MetroOpen*t2, MetroTime3=MetroOpen*t3, MetroTime4=MetroOpen*t4)
-
-write.csv(df3, "reg_frame.csv")
 ```
 
 ```{r}
@@ -54,18 +53,8 @@ summary(m1<-lm(log(pm25) ~ MetroOpen, data=df3))
 
 summary(m1<-lm(log(pm25) ~ MetroOpen + 
                  construction + 
-                 as.factor(dow)+
-                 as.factor(month), data=df3))
-
-summary(m1<-lm(log(pm25) ~ MetroOpen + 
-                 construction + 
-                 as.factor(dow)+
-                 as.factor(month)+ 
-                 t*MetroOpen + t2*MetroOpen + t3*MetroOpen + 
-                 t4*MetroOpen +
-                 Tair_f_tavg + lag_temp + lag_temp2 + lag_temp3 + lag_temp4 +
-                 Wind_f_tavg + lag_wind + lag_wind2 + lag_wind3 + lag_wind4 +
-                 Qair_f_tavg + lag_hum + lag_hum2 + lag_hum3 + lag_hum4, data=df3))
+                 Wind_f_tavg + lag_wind + lag_wind2 + lag_wind3 +
+                 Qair_f_tavg + lag_hum + lag_hum2 + lag_hum3 + is_holiday, data=df3))
 ```
 
 ```{r}
