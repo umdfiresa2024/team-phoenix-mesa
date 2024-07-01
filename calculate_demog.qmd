@@ -111,12 +111,18 @@ summary(blockracedf)
 Intersect blocks with buffers
 
 ```{r}
-buff2 <- subset(buff, buff$city_num == 1)
-int<-crop(buff2, blockrace)
+dem_frame<-data.frame()
+```
+
+```{r}
+buffdf<-as.data.frame(buff)
+buff2 <- subset(buff, buff$FID == 11)
+buff2df <- as.data.frame(buff2)
+int<-crop(blockrace, buff2)
 
 int$intarea<-expanse(int, unit="m")
 
-intdf<-as.data.frame(int) %>%
+intdf<-as.data.frame(int)%>%
   mutate(frac_area=intarea/blockarea) %>%
   mutate(total=total*frac_area, 
          white=white*frac_area, 
@@ -129,13 +135,15 @@ intdf<-as.data.frame(int) %>%
   mutate(pct_white=white*100/total, 
          pct_black=black*100/total, 
          pct_native=native*100/total)
+
+dem_frame<-rbind(dem_frame,intdf)
 ```
 
 Summarize demographic groups that live near light rail stations
 
 ```{r}
 sum_demog<-intdf %>%
-  select(pct_hisp, pct_white, pct_native, pct_black, pct_asian)
+  select(pct_white, pct_native, pct_black)
 
 kable(sum_demog, digits=2)
 ```
