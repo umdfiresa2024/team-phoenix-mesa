@@ -14,7 +14,7 @@ df<-read.csv("Big_Data.csv")
 
 ```{r}
 df2<-df %>% mutate(date=as.Date(date, format='%Y-%m-%d'))
-glimpse(df2)
+df2 <- subset(df2, select = -c(V1, V2, V3, lon, lat, address, X, lat2, lon2, Station))
 ```
 
 ```{r}
@@ -26,10 +26,44 @@ conststart<-as.Date("2005-03-01", format='%Y-%m-%d')
 ```
 
 ```{r}
-df3<-df2 %>% filter(date>=startdate & date<=enddate) %>%
+df3<-df2 %>%
+  filter(date>=startdate & date<=enddate) %>%
   mutate(MetroOpen=ifelse(date>=opendate, 1, 0)) %>%
   mutate(dow=wday(date)) %>%
-  mutate(construction=ifelse(date>conststart & date<opendate, 1, 0))
+  mutate(construction=ifelse(date>conststart & date<opendate, 
+                             1, 0)) %>%
+  #Create P(t) variables
+  mutate(t=as.numeric(date-startdate)) %>%
+  mutate(t2=t^2, t3=t^3, t4=t^4) %>%
+  #Create lagged values (do this for temperature, humidity, and wind speed)
+  arrange(city_num, date) %>%
+  group_by(city_num) %>%
+  mutate(lag_temp=lag(Tair_f_tavg)) %>%
+  mutate(lag_temp2=lag_temp^2, lag_temp3=lag_temp^3, lag_temp4=lag_temp^4) %>%
+  mutate(lag_wind=lag(Wind_f_tavg)) %>%
+  mutate(lag_wind2=lag_wind^2, lag_wind3=lag_wind^3, lag_wind4=lag_wind^4) %>%
+  mutate(lag_hum=lag(Qair_f_tavg)) %>%
+  mutate(lag_hum2=lag_hum^2, lag_hum3=lag_hum^3, lag_hum4=lag_hum^4) %>%
+  mutate(MetroTime=MetroOpen*t, MetroTime2=MetroOpen*t2, MetroTime3=MetroOpen*t3, MetroTime4=MetroOpen*t4)
+```
+
+```{r}
+summary(m1<-lm(log(pm25) ~ MetroOpen, data=df3))
+
+summary(m1<-lm(log(pm25) ~ MetroOpen + 
+                 construction + 
+                 as.factor(dow)+
+                 as.factor(month), data=df3))
+
+summary(m1<-lm(log(pm25) ~ MetroOpen + 
+                 construction + 
+                 as.factor(dow)+
+                 as.factor(month)+ 
+                 t*MetroOpen + t2*MetroOpen + t3*MetroOpen + 
+                 t4*MetroOpen +
+                 Tair_f_tavg + lag_temp + lag_temp2 + lag_temp3 + lag_temp4 +
+                 Wind_f_tavg + lag_wind + lag_wind2 + lag_wind3 + lag_wind4 +
+                 Qair_f_tavg + lag_hum + lag_hum2 + lag_hum3 + lag_hum4, data=df3))
 ```
 
 ```{r}
