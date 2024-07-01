@@ -9,8 +9,6 @@ In this document, you will calculate station-level PM2.5 changes. Afterward, you
 # Calculating Station-Level Pollution Change
 
 ```{r}
-install.packages("tidyverse")
-install.packages("knitr")
 library("tidyverse")
 library("knitr")
 ```
@@ -81,7 +79,6 @@ racename<-race %>%
 # Calculate affected demographic group
 
 ```{r}
-install.packages("terra")
 library("terra")
 ```
 
@@ -93,7 +90,7 @@ plot(buff)
 Download shapefiles from [tigris package](https://github.com/walkerke/tigris)
 
 ```{r}
-shape<-tigris::blocks(state="AZ", county="Maricopa", class="sp", year=2010)
+shape<-tigris::blocks(state="AZ", county="Maricopa", class="sf", year=2010)
 shapevect<-vect(shape)
 shapedf<-as.data.frame(shape)
 plot(shapevect)
@@ -118,8 +115,8 @@ dem_frame<-data.frame()
 ```
 
 ```{r}
-buffdf<-as.data.frame(buff)
-buff2 <- subset(buff, buff$FID == 1)
+for(i in 0:28){
+buff2 <- subset(buff, buff$FID == i)
 buff2df <- as.data.frame(buff2)
 int<-crop(blockrace, buff2)
 
@@ -140,6 +137,8 @@ intdf<-as.data.frame(int)%>%
          pct_native=native*100/total)
 
 dem_frame<-rbind(dem_frame,intdf)
+}
+write.csv(dem_frame,"dem_stats.csv")
 ```
 
 Summarize demographic groups that live near light rail stations

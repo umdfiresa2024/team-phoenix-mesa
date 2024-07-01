@@ -23,12 +23,13 @@ startdate<-as.Date("2004-12-01", format='%Y-%m-%d')
 enddate<-as.Date("2012-12-01", format='%Y-%m-%d')
 opendate<-as.Date("2008-12-27", format='%Y-%m-%d')
 conststart<-as.Date("2005-03-01", format='%Y-%m-%d')
-poldate<-as.Date("2008-03-26", format='%Y-%m-%d')
+poldate<-as.Date("2004-01-21", format='%Y-%m-%d')
 ```
 
 ```{r}
 df3<-df2 %>%
   filter(date>=startdate & date<=enddate) %>%
+  mutate(policy=ifelse(date>=poldate, 1, 0)) %>%
   mutate(MetroOpen=ifelse(date>=opendate, 1, 0)) %>%
   mutate(dow=wday(date)) %>%
   mutate(construction=ifelse(date>conststart & date<opendate, 
@@ -49,12 +50,7 @@ df3<-df2 %>%
 ```
 
 ```{r}
-summary(m1<-lm(log(pm25) ~ MetroOpen, data=df3))
-
-summary(m1<-lm(log(pm25) ~ MetroOpen + 
-                 construction + 
-                 Wind_f_tavg + lag_wind + lag_wind2 + lag_wind3 +
-                 Qair_f_tavg + lag_hum + lag_hum2 + lag_hum3 + is_holiday, data=df3))
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=df3))
 ```
 
 ```{r}
