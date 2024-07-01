@@ -45,6 +45,8 @@ df3<-df2 %>%
   mutate(lag_hum=lag(Qair_f_tavg)) %>%
   mutate(lag_hum2=lag_hum^2, lag_hum3=lag_hum^3, lag_hum4=lag_hum^4) %>%
   mutate(MetroTime=MetroOpen*t, MetroTime2=MetroOpen*t2, MetroTime3=MetroOpen*t3, MetroTime4=MetroOpen*t4)
+
+write.csv(df3, "reg_frame.csv")
 ```
 
 ```{r}
