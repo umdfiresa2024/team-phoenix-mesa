@@ -9,6 +9,8 @@ In this document, you will calculate station-level PM2.5 changes. Afterward, you
 # Calculating Station-Level Pollution Change
 
 ```{r}
+install.packages("tidyverse")
+install.packages("knitr")
 library("tidyverse")
 library("knitr")
 ```
@@ -79,6 +81,7 @@ racename<-race %>%
 # Calculate affected demographic group
 
 ```{r}
+install.packages("terra")
 library("terra")
 ```
 
