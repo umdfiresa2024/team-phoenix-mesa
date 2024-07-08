@@ -5,6 +5,7 @@ format: gfm
 editor: visual
 ---
 
+
 ## Research Question
 
 -   What is the impact of air pollution caused by light rail stations on demographics in Phoenix and Mesa?
@@ -15,12 +16,14 @@ editor: visual
 
 ## Data
 
+
 ```{r}
 library("tidyverse") 
 library("knitr") 
 library("terra") 
 library("maptiles")
 ```
+
 
 -   Timeline of interest
 
@@ -30,15 +33,18 @@ library("maptiles")
 
     -   We used a Google API key to collect the coordinates of each of these stations, manually collecting the few that Google didn't automatically find.
 
+
         ```{r}
         c<-read.csv("Coordinates.csv") %>%   
           select(Station, lat2, lon2) 
         kable(c)
         ```
 
+
 -   Factors that impact PM2.5 in the city
 
     Many factors contribute to the PM2.5 level in the air in Maricopa County, this is the Phoenix-Mesa area we are focusing on. According to Maricopa's official website, some of the biggest contributors to PM2.5 pollution include wood burning, power plants, congested highways, construction sites, and unpaved roads. Using the same technique of acquiring their coordinates from Google API, we can make a table that contains some of the biggest contributors around this county, some more centralized in the city than others.
+
 
 ```{r}
 sources <- read.csv("Poll_Coordinates.csv") %>%     
@@ -47,9 +53,11 @@ sources <- read.csv("Poll_Coordinates.csv") %>%
 kable(sources) 
 ```
 
+
 ## Plotting Stations
 
 Once we had the coordinates, we could plot them out and create a map displaying the stations and the line they all service, as well as a circular buffer representing the station's area of effect.
+
 
 ```{r}
 stations <- read.csv("Coordinates.csv") 
@@ -63,7 +71,9 @@ y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WG
 plot(y) 
 ```
 
+
 This would then put buffers over our stations with a 1000m radius. We get a more complete map by combining a map background, our points, and their station buffers.
+
 
 ```{r}
 #create a 1 km (1000 meter) buffer (radius)  
@@ -81,11 +91,13 @@ outfile <- "buffer.shp"
 writeVector(pts_buffer, outfile, overwrite=TRUE) 
 ```
 
+
 ## **Gathering Meteorology Data**
 
 To check the effects of pollution from sources around the city, whether it comes from stations, power plants, and highways or the effects of policies that might affect these levels of pollution, we need meteorological data. we will be using data from NASA, through its Land Data Assimilation System (LDAS) and its global counterpart (GLDAS). These data can be gathered from NASA's website. We downloaded all relevant data into a Google Drive folder, ranging from the dates of 01/01/2000 to 30/12/20214. This already covers our original date range of 01/01/2000 to 01/01/2012.
 
 The code below opens this data and loops through its files to only get the relevant dates. Next, it uses the buffer zones around the train stations to only put the data from these areas. Lastly, it puts it all into a CSV file.
+
 
 ```{r}
 files<-dir("G:/Shared drives/2024 FIRE Light Rail/DATA/GLDAS/")
@@ -115,9 +127,11 @@ for(i in 1822:4384){
 write.csv(output, "met_data.csv", row.names=F)
 ```
 
+
 ## **Gathering PM2.5 Data**
 
 Similarly to Meteorology data, we need to also gather PM2.5 to see the changes these stations have on this type of pollution. we focus on the same time frame as meteorology data. Our data comes from NASA. We downloaded the data into another Google Drive folder. we then use a nested for-loop to go through each folder (which are months), and go through each day (they are TIF files containing satellite images of the US). The buffers we used for the meteorology data are also used again to focus on those parts of the map. We put all these daily files into a folder that will be used later on.
+
 
 ```{r}
 pts_buffer <- vect("buffer.shp")
@@ -169,9 +183,11 @@ for (m in 1:length(months)) {
 }
 ```
 
+
 ## **Combining all data gathered**
 
 Now that we have station locations, sources of pollution locations, meteorology data, and PM2.5 data, we combine all of these into one single data frame. Holiday dates were added and compared to dates on the time frame to verify if those dates were holidays. all of the data are then combined into a data frame using merge() and outputted into a CSV file.
+
 
 ```{r}
 setwd("PM25_daily")
@@ -203,9 +219,11 @@ write.csv(merge2, "Big_Data.csv")
 
 ```
 
+
 ## Modeling and using DB-OLS regression
 
 we now want to create a model that would give us a coefficient that we can use to tell the relationship between the pollution levels and the metro stations opening. we will create our dates for the start of the analysis to the end of it, the opening date of the stations, when construction began for the stations, and a policy that was enacted around that same time. df2 has our initial big data that was combined above, but it removes unnecessary columns that wont be used on the regression.
+
 
 ```{r}
 df<-read.csv("Big_Data.csv")
@@ -221,7 +239,9 @@ conststart<-as.Date("2005-03-01", format='%Y-%m-%d')
 poldate<-as.Date("2004-01-21", format='%Y-%m-%d')
 ```
 
+
 We now add variables that will be used for the regression. we have a policy variable that would be a 1 when it is active and 0 when it is not. Like with with Metro open, it just states which dates the metro stations where open or not. other variables are temperature, wind, humidity and time variable.
+
 
 ```{r}
 df3<-df2 %>%
@@ -246,7 +266,9 @@ df3<-df2 %>%
   mutate(MetroTime=MetroOpen*t, MetroTime2=MetroOpen*t2, MetroTime3=MetroOpen*t3, MetroTime4=MetroOpen*t4)
 ```
 
+
 Our first simple regression is just to see the effect on PM2.5 when the metro is open. this is not a good model as it only considers one variable. we would need to add more variables to see if any hidden variables might be affecting the levels of pollution in our areas. so we begin to add more regression to see how the variable "Metro Open" changes with each regression and added variable.
+
 
 ```{r}
 #simple regression
@@ -255,3 +277,4 @@ summary(m1<-lm(log(pm25) ~ MetroOpen , data=df3))
 summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=df3))
 #adding more regression later on...
 ```
+
