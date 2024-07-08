@@ -51,8 +51,24 @@ df3<-df2 %>%
 
 ```{r}
 summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=df3))
+
+
+
 ```
 
 ```{r}
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month)+policy, data=df3))
 
+```
+
+```{r}
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +lag_temp+lag_wind+lag_hum+construction +policy, data=df3))
+```
+
+```{r}
+summary(m1<-lm(log(pm25) ~ MetroOpen , data=df3))
+```
+
+```{r}
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month)+policy+ construction+lag_temp2+lag_wind2+lag_hum2+MetroTime+t ,data=df3))
 ```

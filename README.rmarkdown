@@ -123,8 +123,8 @@ for(i in 1822:4384){
   output<-rbind(output, metdf)
   print(files[i])
 }
-
-write.csv(output, "met_data.csv", row.names=F)
+#testing 
+#write.csv(output, "met_data.csv", row.names=F)
 ```
 
 
