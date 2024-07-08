@@ -7,16 +7,16 @@ library("dplyr")
 stations <- read.csv("Coordinates.csv")
 sources <- read.csv("Poll_Coordinates.csv")
 
-df<- stations %>%
+dfx<- stations %>%
   select(lon2,lat2)
 
-df2<- sources %>%
+dfy<- sources %>%
   filter(Source != "SOURCE Arizona") %>%
   select(lon2,lat2)
 
 #converts df into a spatvector
-x <- vect(df, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
-y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+x <- vect(dfx, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+y <- vect(dfy, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
 
 plot(x)
 plot(y)

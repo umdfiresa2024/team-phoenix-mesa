@@ -56,19 +56,17 @@ summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=d
 
 ```
 
-```{r}
-summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month)+policy, data=df3))
-
+```{}
 ```
 
 ```{r}
-summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +lag_temp+lag_wind+lag_hum+construction +policy, data=df3))
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction, data=df3))
 ```
 
 ```{r}
-summary(m1<-lm(log(pm25) ~ MetroOpen , data=df3))
+summary(m1<-lm(log(pm25) ~ MetroOpen +Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
 ```
 
 ```{r}
-summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month)+policy+ construction+lag_temp2+lag_wind2+lag_hum2+MetroTime+t ,data=df3))
+summary(m1<-lm(log(pm25) ~ MetroOpen:as.factor(city_num)+Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
 ```
