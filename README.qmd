@@ -16,6 +16,7 @@ editor: visual
 ## Data
 
 ```{r}
+#| warning: false
 library("tidyverse") 
 library("knitr") 
 library("terra") 
@@ -88,6 +89,7 @@ To check the effects of pollution from sources around the city, whether it comes
 The code below opens this data and loops through its files to only get the relevant dates. Next, it uses the buffer zones around the train stations to only put the data from these areas. Lastly, it puts it all into a CSV file.
 
 ```{r}
+#| eval: false
 files<-dir("G:/Shared drives/2024 FIRE Light Rail/DATA/GLDAS/")
 
 output<-c()
@@ -120,6 +122,7 @@ write.csv(output, "met_data.csv", row.names=F)
 Similarly to Meteorology data, we need to also gather PM2.5 to see the changes these stations have on this type of pollution. we focus on the same time frame as meteorology data. Our data comes from NASA. We downloaded the data into another Google Drive folder. we then use a nested for-loop to go through each folder (which are months), and go through each day (they are TIF files containing satellite images of the US). The buffers we used for the meteorology data are also used again to focus on those parts of the map. We put all these daily files into a folder that will be used later on.
 
 ```{r}
+#| eval: false
 pts_buffer <- vect("buffer.shp")
 
 path<-"G:/Shared drives/2024 FIRE Light Rail/DATA/PM25/"
@@ -174,6 +177,7 @@ for (m in 1:length(months)) {
 Now that we have station locations, sources of pollution locations, meteorology data, and PM2.5 data, we combine all of these into one single data frame. Holiday dates were added and compared to dates on the time frame to verify if those dates were holidays. all of the data are then combined into a data frame using merge() and outputted into a CSV file.
 
 ```{r}
+#| eval: false
 setwd("PM25_daily")
 file_list <- list.files()
 
