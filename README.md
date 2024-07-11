@@ -487,3 +487,173 @@ summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +lag_te
       (5153 observations deleted due to missingness)
     Multiple R-squared:  0.2418,    Adjusted R-squared:  0.2415 
     F-statistic:  1002 on 22 and 69151 DF,  p-value: < 2.2e-16
+
+## Creating a Map and Drawing Conclusions
+
+From the regression we thought was best, we turned the map of the
+stations into a representation of which locations saw the largest
+increases/decreases, as well as showing the other nearby pollution
+sources.
+
+``` r
+summary(m1<-lm(log(pm25) ~ MetroOpen:as.factor(city_num)+Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
+```
+
+
+    Call:
+    lm(formula = log(pm25) ~ MetroOpen:as.factor(city_num) + Tair_f_tavg + 
+        lag_temp + lag_temp2 + lag_temp3 + lag_temp4 + Wind_f_tavg + 
+        lag_wind + lag_wind2 + lag_wind3 + lag_wind4 + Qair_f_tavg + 
+        lag_hum + lag_hum2 + lag_hum3 + lag_hum4 + construction + 
+        is_holiday + t + t2 + t3 + t4, data = df3)
+
+    Residuals:
+         Min       1Q   Median       3Q      Max 
+    -1.76216 -0.21129 -0.00628  0.20426  2.50606 
+
+    Coefficients:
+                                      Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)                      1.455e+04  1.659e+03   8.770  < 2e-16 ***
+    Tair_f_tavg                      8.593e-03  6.142e-04  13.989  < 2e-16 ***
+    lag_temp                        -1.987e+02  2.257e+01  -8.807  < 2e-16 ***
+    lag_temp2                        1.019e+00  1.151e-01   8.856  < 2e-16 ***
+    lag_temp3                       -2.324e-03  2.607e-04  -8.917  < 2e-16 ***
+    lag_temp4                        1.990e-06  2.214e-07   8.987  < 2e-16 ***
+    Wind_f_tavg                     -9.429e-02  1.853e-03 -50.889  < 2e-16 ***
+    lag_wind                        -1.378e+00  1.088e-01 -12.664  < 2e-16 ***
+    lag_wind2                        5.348e-01  4.573e-02  11.696  < 2e-16 ***
+    lag_wind3                       -8.978e-02  8.166e-03 -10.995  < 2e-16 ***
+    lag_wind4                        5.333e-03  5.238e-04  10.181  < 2e-16 ***
+    Qair_f_tavg                     -3.672e+01  9.767e-01 -37.593  < 2e-16 ***
+    lag_hum                         -1.762e+02  1.818e+01  -9.689  < 2e-16 ***
+    lag_hum2                         2.271e+04  3.845e+03   5.907 3.50e-09 ***
+    lag_hum3                        -1.291e+06  3.327e+05  -3.879 0.000105 ***
+    lag_hum4                         2.579e+07  1.004e+07   2.568 0.010229 *  
+    construction                     1.898e-01  1.176e-02  16.144  < 2e-16 ***
+    is_holidayTRUE                   2.230e-01  7.432e-03  30.002  < 2e-16 ***
+    t                               -1.199e-03  4.846e-05 -24.734  < 2e-16 ***
+    t2                               2.297e-06  7.064e-08  32.518  < 2e-16 ***
+    t3                              -1.380e-09  4.001e-11 -34.503  < 2e-16 ***
+    t4                               2.632e-13  7.632e-15  34.481  < 2e-16 ***
+    MetroOpen:as.factor(city_num)2  -2.118e-02  1.705e-02  -1.243 0.214001    
+    MetroOpen:as.factor(city_num)3  -2.284e-05  1.705e-02  -0.001 0.998931    
+    MetroOpen:as.factor(city_num)4   7.876e-03  1.705e-02   0.462 0.644073    
+    MetroOpen:as.factor(city_num)5   2.088e-02  1.705e-02   1.225 0.220659    
+    MetroOpen:as.factor(city_num)6   1.852e-02  1.705e-02   1.087 0.277234    
+    MetroOpen:as.factor(city_num)7   4.955e-02  1.705e-02   2.906 0.003659 ** 
+    MetroOpen:as.factor(city_num)8   4.325e-02  1.705e-02   2.537 0.011193 *  
+    MetroOpen:as.factor(city_num)9   6.548e-02  1.705e-02   3.841 0.000123 ***
+    MetroOpen:as.factor(city_num)10  9.925e-02  1.705e-02   5.822 5.85e-09 ***
+    MetroOpen:as.factor(city_num)11  1.442e-01  1.705e-02   8.457  < 2e-16 ***
+    MetroOpen:as.factor(city_num)12  1.041e-01  1.705e-02   6.105 1.03e-09 ***
+    MetroOpen:as.factor(city_num)13  1.041e-01  1.705e-02   6.105 1.03e-09 ***
+    MetroOpen:as.factor(city_num)14  1.384e-01  1.705e-02   8.117 4.87e-16 ***
+    MetroOpen:as.factor(city_num)15  1.262e-01  1.705e-02   7.405 1.33e-13 ***
+    MetroOpen:as.factor(city_num)16  1.023e-01  1.705e-02   6.002 1.96e-09 ***
+    MetroOpen:as.factor(city_num)17  4.220e-02  1.705e-02   2.475 0.013318 *  
+    MetroOpen:as.factor(city_num)18  2.214e-02  1.705e-02   1.299 0.194080    
+    MetroOpen:as.factor(city_num)19 -2.072e-03  1.705e-02  -0.122 0.903254    
+    MetroOpen:as.factor(city_num)20  2.559e-02  1.705e-02   1.501 0.133368    
+    MetroOpen:as.factor(city_num)21 -1.280e-02  1.705e-02  -0.751 0.452741    
+    MetroOpen:as.factor(city_num)22 -3.635e-03  1.705e-02  -0.213 0.831135    
+    MetroOpen:as.factor(city_num)23  1.769e-02  1.705e-02   1.038 0.299378    
+    MetroOpen:as.factor(city_num)24 -7.734e-03  1.705e-02  -0.454 0.650062    
+    MetroOpen:as.factor(city_num)25 -5.436e-03  1.705e-02  -0.319 0.749812    
+    MetroOpen:as.factor(city_num)26 -1.993e-02  1.705e-02  -1.169 0.242433    
+    MetroOpen:as.factor(city_num)27 -7.798e-02  1.705e-02  -4.574 4.80e-06 ***
+    MetroOpen:as.factor(city_num)28 -1.324e-01  1.705e-02  -7.769 8.03e-15 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 0.3458 on 69125 degrees of freedom
+      (5153 observations deleted due to missingness)
+    Multiple R-squared:  0.253, Adjusted R-squared:  0.2525 
+    F-statistic: 487.7 on 48 and 69125 DF,  p-value: < 2.2e-16
+
+``` r
+len_coef<-length(coef(m1))
+
+#get coefficients of the station-level effect
+coef<-coef(m1)[(len_coef-26): len_coef]
+
+#get p values of the station-level effect (p<0.05 is statistically significant)
+pval<-summary(m1)$coefficients[,4][(len_coef-26): len_coef]
+
+kable(cbind(coef, pval), digits=2)
+```
+
+|                                 |  coef | pval |
+|:--------------------------------|------:|-----:|
+| MetroOpen:as.factor(city_num)2  | -0.02 | 0.21 |
+| MetroOpen:as.factor(city_num)3  |  0.00 | 1.00 |
+| MetroOpen:as.factor(city_num)4  |  0.01 | 0.64 |
+| MetroOpen:as.factor(city_num)5  |  0.02 | 0.22 |
+| MetroOpen:as.factor(city_num)6  |  0.02 | 0.28 |
+| MetroOpen:as.factor(city_num)7  |  0.05 | 0.00 |
+| MetroOpen:as.factor(city_num)8  |  0.04 | 0.01 |
+| MetroOpen:as.factor(city_num)9  |  0.07 | 0.00 |
+| MetroOpen:as.factor(city_num)10 |  0.10 | 0.00 |
+| MetroOpen:as.factor(city_num)11 |  0.14 | 0.00 |
+| MetroOpen:as.factor(city_num)12 |  0.10 | 0.00 |
+| MetroOpen:as.factor(city_num)13 |  0.10 | 0.00 |
+| MetroOpen:as.factor(city_num)14 |  0.14 | 0.00 |
+| MetroOpen:as.factor(city_num)15 |  0.13 | 0.00 |
+| MetroOpen:as.factor(city_num)16 |  0.10 | 0.00 |
+| MetroOpen:as.factor(city_num)17 |  0.04 | 0.01 |
+| MetroOpen:as.factor(city_num)18 |  0.02 | 0.19 |
+| MetroOpen:as.factor(city_num)19 |  0.00 | 0.90 |
+| MetroOpen:as.factor(city_num)20 |  0.03 | 0.13 |
+| MetroOpen:as.factor(city_num)21 | -0.01 | 0.45 |
+| MetroOpen:as.factor(city_num)22 |  0.00 | 0.83 |
+| MetroOpen:as.factor(city_num)23 |  0.02 | 0.30 |
+| MetroOpen:as.factor(city_num)24 | -0.01 | 0.65 |
+| MetroOpen:as.factor(city_num)25 | -0.01 | 0.75 |
+| MetroOpen:as.factor(city_num)26 | -0.02 | 0.24 |
+| MetroOpen:as.factor(city_num)27 | -0.08 | 0.00 |
+| MetroOpen:as.factor(city_num)28 | -0.13 | 0.00 |
+
+``` r
+c1<-vect("buffer.shp")
+
+c2<-subset(c1, c1$FID>0 & c1$FID<28)
+c1df<-as.data.frame(c1)
+
+coef2<-c(coef)*100
+coefdf<-as.data.frame(coef2)
+cities_coef<-cbind(c2, coefdf)
+
+sources <- read.csv("Poll_Coordinates.csv")
+dfy<- sources %>%
+  filter(Source != "SOURCE Arizona") %>%
+  select(lon2,lat2)
+y <- vect(dfy, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+
+bgext<-buffer(c2, width=9000)
+
+#get background map
+bg <- get_tiles(ext(bgext),provider = "Esri.WorldShadedRelief", crop = TRUE)
+
+plot(bg)
+
+plot(cities_coef,
+     "coef2",
+     type="interval",
+     breaks=c(-10, -5, 0, 5, 10, 15, 20),
+     col=map.pal("gyr"),add=TRUE, legend="topright", plg=list(cex=1))
+
+points(y, col = "blue", cex=3)
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-12-1.png)
+
+## Conclusions
+
+As shown, the stations in the middle of the line near the center of
+Phoenix saw an increase in air pollution, while stations closer to the
+ends of the line saw decreases. After a little more research, we
+discovered that this was likely due to the surrounding geography. The
+mountains around Phoenix meant that air pollution in the area would get
+trapped in the “bowl” that the mountains created, which would make the
+air quality worse over time. The stations near the ends of the line are
+not as affected by this phenomenon, and we can see that the light rails
+did have an effect decreasing the air pollution in those areas.

@@ -260,3 +260,54 @@ summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=d
 
 summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +lag_temp+lag_wind+lag_hum+construction +policy, data=df3))
 ```
+
+## Creating a Map and Drawing Conclusions
+
+From the regression we thought was best, we turned the map of the stations into a representation of which locations saw the largest increases/decreases, as well as showing the other nearby pollution sources.
+
+```{r}
+summary(m1<-lm(log(pm25) ~ MetroOpen:as.factor(city_num)+Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
+
+len_coef<-length(coef(m1))
+
+#get coefficients of the station-level effect
+coef<-coef(m1)[(len_coef-26): len_coef]
+
+#get p values of the station-level effect (p<0.05 is statistically significant)
+pval<-summary(m1)$coefficients[,4][(len_coef-26): len_coef]
+
+kable(cbind(coef, pval), digits=2)
+c1<-vect("buffer.shp")
+
+c2<-subset(c1, c1$FID>0 & c1$FID<28)
+c1df<-as.data.frame(c1)
+
+coef2<-c(coef)*100
+coefdf<-as.data.frame(coef2)
+cities_coef<-cbind(c2, coefdf)
+
+sources <- read.csv("Poll_Coordinates.csv")
+dfy<- sources %>%
+  filter(Source != "SOURCE Arizona") %>%
+  select(lon2,lat2)
+y <- vect(dfy, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ")
+
+bgext<-buffer(c2, width=9000)
+
+#get background map
+bg <- get_tiles(ext(bgext),provider = "Esri.WorldShadedRelief", crop = TRUE)
+
+plot(bg)
+
+plot(cities_coef,
+     "coef2",
+     type="interval",
+     breaks=c(-10, -5, 0, 5, 10, 15, 20),
+     col=map.pal("gyr"),add=TRUE, legend="topright", plg=list(cex=1))
+
+points(y, col = "blue", cex=3)
+```
+
+## Conclusions
+
+As shown, the stations in the middle of the line near the center of Phoenix saw an increase in air pollution, while stations closer to the ends of the line saw decreases. After a little more research, we discovered that this was likely due to the surrounding geography. The mountains around Phoenix meant that air pollution in the area would get trapped in the "bowl" that the mountains created, which would make the air quality worse over time. The stations near the ends of the line are not as affected by this phenomenon, and we can see that the light rails did have an effect decreasing the air pollution in those areas.
