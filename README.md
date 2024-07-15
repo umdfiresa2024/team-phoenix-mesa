@@ -376,30 +376,6 @@ changes with each regression and added variable.
 
 ``` r
 #simple regression
-summary(m1<-lm(log(pm25) ~ MetroOpen , data=df3))
-```
-
-
-    Call:
-    lm(formula = log(pm25) ~ MetroOpen, data = df3)
-
-    Residuals:
-         Min       1Q   Median       3Q      Max 
-    -1.81005 -0.25654 -0.02298  0.23402  2.09546 
-
-    Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-    (Intercept)  2.235255   0.002008 1112.94   <2e-16 ***
-    MetroOpen   -0.071515   0.003064  -23.34   <2e-16 ***
-    ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-    Residual standard error: 0.399 on 69199 degrees of freedom
-      (5126 observations deleted due to missingness)
-    Multiple R-squared:  0.007809,  Adjusted R-squared:  0.007795 
-    F-statistic: 544.7 on 1 and 69199 DF,  p-value: < 2.2e-16
-
-``` r
 summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=df3))
 ```
 
@@ -442,51 +418,189 @@ summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=d
     F-statistic:   871 on 18 and 69182 DF,  p-value: < 2.2e-16
 
 ``` r
-summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +lag_temp+lag_wind+lag_hum+construction +policy, data=df3))
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction, data=df3))
 ```
 
 
     Call:
     lm(formula = log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) + 
-        lag_temp + lag_wind + lag_hum + construction + policy, data = df3)
+        Tair_f_tavg + lag_temp + lag_temp2 + lag_temp3 + lag_temp4 + 
+        Wind_f_tavg + lag_wind + lag_wind2 + lag_wind3 + lag_wind4 + 
+        Qair_f_tavg + lag_hum + lag_hum2 + lag_hum3 + lag_hum4 + 
+        construction, data = df3)
 
     Residuals:
          Min       1Q   Median       3Q      Max 
-    -2.09097 -0.21128  0.00243  0.21615  2.13539 
+    -1.95792 -0.20031 -0.00128  0.20499  2.29061 
 
-    Coefficients: (1 not defined because of singularities)
+    Coefficients:
                          Estimate Std. Error t value Pr(>|t|)    
-    (Intercept)        -6.116e-01  1.241e-01  -4.929 8.27e-07 ***
-    MetroOpen           1.444e-01  9.192e-03  15.710  < 2e-16 ***
-    as.factor(dow)2     1.305e-02  4.960e-03   2.631 0.008509 ** 
-    as.factor(dow)3     7.699e-03  4.962e-03   1.552 0.120722    
-    as.factor(dow)4     2.748e-02  4.959e-03   5.542 3.01e-08 ***
-    as.factor(dow)5     1.966e-02  4.957e-03   3.967 7.30e-05 ***
-    as.factor(dow)6     6.236e-02  4.961e-03  12.569  < 2e-16 ***
-    as.factor(dow)7     1.812e-02  4.956e-03   3.656 0.000256 ***
-    as.factor(month)2  -2.568e-01  6.641e-03 -38.663  < 2e-16 ***
-    as.factor(month)3  -4.433e-01  6.890e-03 -64.344  < 2e-16 ***
-    as.factor(month)4  -4.292e-01  7.584e-03 -56.591  < 2e-16 ***
-    as.factor(month)5  -4.105e-01  8.761e-03 -46.857  < 2e-16 ***
-    as.factor(month)6  -4.362e-01  1.041e-02 -41.888  < 2e-16 ***
-    as.factor(month)7  -3.136e-01  1.192e-02 -26.309  < 2e-16 ***
-    as.factor(month)8  -4.188e-01  1.150e-02 -36.425  < 2e-16 ***
-    as.factor(month)9  -3.868e-01  1.042e-02 -37.130  < 2e-16 ***
-    as.factor(month)10 -3.420e-01  8.287e-03 -41.263  < 2e-16 ***
-    as.factor(month)11 -8.580e-02  7.087e-03 -12.106  < 2e-16 ***
-    as.factor(month)12  1.669e-01  6.498e-03  25.679  < 2e-16 ***
-    lag_temp            1.139e-02  4.327e-04  26.315  < 2e-16 ***
-    lag_wind           -7.030e-02  1.727e-03 -40.702  < 2e-16 ***
-    lag_hum            -3.895e+01  7.593e-01 -51.299  < 2e-16 ***
-    construction        2.261e-01  9.179e-03  24.636  < 2e-16 ***
-    policy                     NA         NA      NA       NA    
+    (Intercept)         2.945e+04  1.759e+03  16.738  < 2e-16 ***
+    MetroOpen           1.198e-01  8.900e-03  13.458  < 2e-16 ***
+    as.factor(dow)2     7.057e-04  4.734e-03   0.149   0.8815    
+    as.factor(dow)3    -1.010e-02  4.736e-03  -2.132   0.0330 *  
+    as.factor(dow)4     1.013e-02  4.738e-03   2.138   0.0325 *  
+    as.factor(dow)5     4.931e-03  4.732e-03   1.042   0.2974    
+    as.factor(dow)6     3.728e-02  4.737e-03   7.869 3.62e-15 ***
+    as.factor(dow)7    -1.527e-03  4.730e-03  -0.323   0.7468    
+    as.factor(month)2  -2.568e-01  6.427e-03 -39.950  < 2e-16 ***
+    as.factor(month)3  -4.410e-01  6.978e-03 -63.201  < 2e-16 ***
+    as.factor(month)4  -4.442e-01  8.030e-03 -55.319  < 2e-16 ***
+    as.factor(month)5  -4.928e-01  9.378e-03 -52.553  < 2e-16 ***
+    as.factor(month)6  -6.244e-01  1.094e-02 -57.089  < 2e-16 ***
+    as.factor(month)7  -5.833e-01  1.242e-02 -46.970  < 2e-16 ***
+    as.factor(month)8  -6.541e-01  1.200e-02 -54.526  < 2e-16 ***
+    as.factor(month)9  -5.495e-01  1.096e-02 -50.121  < 2e-16 ***
+    as.factor(month)10 -3.995e-01  8.816e-03 -45.314  < 2e-16 ***
+    as.factor(month)11 -1.019e-01  7.177e-03 -14.196  < 2e-16 ***
+    as.factor(month)12  1.503e-01  6.214e-03  24.181  < 2e-16 ***
+    Tair_f_tavg         2.377e-02  6.245e-04  38.059  < 2e-16 ***
+    lag_temp           -3.985e+02  2.395e+01 -16.643  < 2e-16 ***
+    lag_temp2           2.022e+00  1.222e-01  16.554  < 2e-16 ***
+    lag_temp3          -4.561e-03  2.769e-04 -16.473  < 2e-16 ***
+    lag_temp4           3.858e-06  2.353e-07  16.398  < 2e-16 ***
+    Wind_f_tavg        -8.265e-02  1.800e-03 -45.922  < 2e-16 ***
+    lag_wind           -1.659e+00  1.046e-01 -15.864  < 2e-16 ***
+    lag_wind2           6.970e-01  4.397e-02  15.850  < 2e-16 ***
+    lag_wind3          -1.252e-01  7.858e-03 -15.933  < 2e-16 ***
+    lag_wind4           7.984e-03  5.044e-04  15.830  < 2e-16 ***
+    Qair_f_tavg        -3.490e+01  9.492e-01 -36.762  < 2e-16 ***
+    lag_hum            -3.123e+01  1.756e+01  -1.779   0.0753 .  
+    lag_hum2           -1.065e+03  3.717e+03  -0.287   0.7744    
+    lag_hum3            3.788e+05  3.219e+05   1.177   0.2392    
+    lag_hum4           -1.604e+07  9.720e+06  -1.651   0.0988 .  
+    construction        1.984e-01  8.915e-03  22.255  < 2e-16 ***
     ---
     Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-    Residual standard error: 0.3484 on 69151 degrees of freedom
+    Residual standard error: 0.3317 on 69139 degrees of freedom
       (5153 observations deleted due to missingness)
-    Multiple R-squared:  0.2418,    Adjusted R-squared:  0.2415 
-    F-statistic:  1002 on 22 and 69151 DF,  p-value: < 2.2e-16
+    Multiple R-squared:  0.3125,    Adjusted R-squared:  0.3121 
+    F-statistic: 924.2 on 34 and 69139 DF,  p-value: < 2.2e-16
+
+``` r
+summary(m1<-lm(log(pm25) ~ MetroOpen +Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
+```
+
+
+    Call:
+    lm(formula = log(pm25) ~ MetroOpen + Tair_f_tavg + lag_temp + 
+        lag_temp2 + lag_temp3 + lag_temp4 + Wind_f_tavg + lag_wind + 
+        lag_wind2 + lag_wind3 + lag_wind4 + Qair_f_tavg + lag_hum + 
+        lag_hum2 + lag_hum3 + lag_hum4 + construction + is_holiday + 
+        t + t2 + t3 + t4, data = df3)
+
+    Residuals:
+         Min       1Q   Median       3Q      Max 
+    -1.76216 -0.21149 -0.00632  0.20611  2.34219 
+
+    Coefficients:
+                     Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)     1.455e+04  1.671e+03   8.709  < 2e-16 ***
+    MetroOpen       3.142e-02  1.373e-02   2.288 0.022148 *  
+    Tair_f_tavg     8.593e-03  6.186e-04  13.891  < 2e-16 ***
+    lag_temp       -1.987e+02  2.273e+01  -8.746  < 2e-16 ***
+    lag_temp2       1.019e+00  1.159e-01   8.795  < 2e-16 ***
+    lag_temp3      -2.324e-03  2.625e-04  -8.855  < 2e-16 ***
+    lag_temp4       1.990e-06  2.229e-07   8.925  < 2e-16 ***
+    Wind_f_tavg    -9.429e-02  1.866e-03 -50.534  < 2e-16 ***
+    lag_wind       -1.378e+00  1.096e-01 -12.576  < 2e-16 ***
+    lag_wind2       5.348e-01  4.605e-02  11.614  < 2e-16 ***
+    lag_wind3      -8.978e-02  8.223e-03 -10.918  < 2e-16 ***
+    lag_wind4       5.333e-03  5.275e-04  10.110  < 2e-16 ***
+    Qair_f_tavg    -3.672e+01  9.836e-01 -37.331  < 2e-16 ***
+    lag_hum        -1.762e+02  1.831e+01  -9.622  < 2e-16 ***
+    lag_hum2        2.271e+04  3.872e+03   5.866 4.49e-09 ***
+    lag_hum3       -1.291e+06  3.350e+05  -3.852 0.000117 ***
+    lag_hum4        2.579e+07  1.011e+07   2.550 0.010769 *  
+    construction    1.898e-01  1.184e-02  16.032  < 2e-16 ***
+    is_holidayTRUE  2.230e-01  7.484e-03  29.793  < 2e-16 ***
+    t              -1.199e-03  4.880e-05 -24.562  < 2e-16 ***
+    t2              2.297e-06  7.113e-08  32.291  < 2e-16 ***
+    t3             -1.380e-09  4.029e-11 -34.262  < 2e-16 ***
+    t4              2.632e-13  7.686e-15  34.240  < 2e-16 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 0.3483 on 69151 degrees of freedom
+      (5153 observations deleted due to missingness)
+    Multiple R-squared:  0.2422,    Adjusted R-squared:  0.2419 
+    F-statistic:  1004 on 22 and 69151 DF,  p-value: < 2.2e-16
+
+``` r
+summary(m1<-lm(log(pm25) ~ MetroOpen:as.factor(city_num)+Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
+```
+
+
+    Call:
+    lm(formula = log(pm25) ~ MetroOpen:as.factor(city_num) + Tair_f_tavg + 
+        lag_temp + lag_temp2 + lag_temp3 + lag_temp4 + Wind_f_tavg + 
+        lag_wind + lag_wind2 + lag_wind3 + lag_wind4 + Qair_f_tavg + 
+        lag_hum + lag_hum2 + lag_hum3 + lag_hum4 + construction + 
+        is_holiday + t + t2 + t3 + t4, data = df3)
+
+    Residuals:
+         Min       1Q   Median       3Q      Max 
+    -1.76216 -0.21129 -0.00628  0.20426  2.50606 
+
+    Coefficients:
+                                      Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)                      1.455e+04  1.659e+03   8.770  < 2e-16 ***
+    Tair_f_tavg                      8.593e-03  6.142e-04  13.989  < 2e-16 ***
+    lag_temp                        -1.987e+02  2.257e+01  -8.807  < 2e-16 ***
+    lag_temp2                        1.019e+00  1.151e-01   8.856  < 2e-16 ***
+    lag_temp3                       -2.324e-03  2.607e-04  -8.917  < 2e-16 ***
+    lag_temp4                        1.990e-06  2.214e-07   8.987  < 2e-16 ***
+    Wind_f_tavg                     -9.429e-02  1.853e-03 -50.889  < 2e-16 ***
+    lag_wind                        -1.378e+00  1.088e-01 -12.664  < 2e-16 ***
+    lag_wind2                        5.348e-01  4.573e-02  11.696  < 2e-16 ***
+    lag_wind3                       -8.978e-02  8.166e-03 -10.995  < 2e-16 ***
+    lag_wind4                        5.333e-03  5.238e-04  10.181  < 2e-16 ***
+    Qair_f_tavg                     -3.672e+01  9.767e-01 -37.593  < 2e-16 ***
+    lag_hum                         -1.762e+02  1.818e+01  -9.689  < 2e-16 ***
+    lag_hum2                         2.271e+04  3.845e+03   5.907 3.50e-09 ***
+    lag_hum3                        -1.291e+06  3.327e+05  -3.879 0.000105 ***
+    lag_hum4                         2.579e+07  1.004e+07   2.568 0.010229 *  
+    construction                     1.898e-01  1.176e-02  16.144  < 2e-16 ***
+    is_holidayTRUE                   2.230e-01  7.432e-03  30.002  < 2e-16 ***
+    t                               -1.199e-03  4.846e-05 -24.734  < 2e-16 ***
+    t2                               2.297e-06  7.064e-08  32.518  < 2e-16 ***
+    t3                              -1.380e-09  4.001e-11 -34.503  < 2e-16 ***
+    t4                               2.632e-13  7.632e-15  34.481  < 2e-16 ***
+    MetroOpen:as.factor(city_num)2  -2.118e-02  1.705e-02  -1.243 0.214001    
+    MetroOpen:as.factor(city_num)3  -2.284e-05  1.705e-02  -0.001 0.998931    
+    MetroOpen:as.factor(city_num)4   7.876e-03  1.705e-02   0.462 0.644073    
+    MetroOpen:as.factor(city_num)5   2.088e-02  1.705e-02   1.225 0.220659    
+    MetroOpen:as.factor(city_num)6   1.852e-02  1.705e-02   1.087 0.277234    
+    MetroOpen:as.factor(city_num)7   4.955e-02  1.705e-02   2.906 0.003659 ** 
+    MetroOpen:as.factor(city_num)8   4.325e-02  1.705e-02   2.537 0.011193 *  
+    MetroOpen:as.factor(city_num)9   6.548e-02  1.705e-02   3.841 0.000123 ***
+    MetroOpen:as.factor(city_num)10  9.925e-02  1.705e-02   5.822 5.85e-09 ***
+    MetroOpen:as.factor(city_num)11  1.442e-01  1.705e-02   8.457  < 2e-16 ***
+    MetroOpen:as.factor(city_num)12  1.041e-01  1.705e-02   6.105 1.03e-09 ***
+    MetroOpen:as.factor(city_num)13  1.041e-01  1.705e-02   6.105 1.03e-09 ***
+    MetroOpen:as.factor(city_num)14  1.384e-01  1.705e-02   8.117 4.87e-16 ***
+    MetroOpen:as.factor(city_num)15  1.262e-01  1.705e-02   7.405 1.33e-13 ***
+    MetroOpen:as.factor(city_num)16  1.023e-01  1.705e-02   6.002 1.96e-09 ***
+    MetroOpen:as.factor(city_num)17  4.220e-02  1.705e-02   2.475 0.013318 *  
+    MetroOpen:as.factor(city_num)18  2.214e-02  1.705e-02   1.299 0.194080    
+    MetroOpen:as.factor(city_num)19 -2.072e-03  1.705e-02  -0.122 0.903254    
+    MetroOpen:as.factor(city_num)20  2.559e-02  1.705e-02   1.501 0.133368    
+    MetroOpen:as.factor(city_num)21 -1.280e-02  1.705e-02  -0.751 0.452741    
+    MetroOpen:as.factor(city_num)22 -3.635e-03  1.705e-02  -0.213 0.831135    
+    MetroOpen:as.factor(city_num)23  1.769e-02  1.705e-02   1.038 0.299378    
+    MetroOpen:as.factor(city_num)24 -7.734e-03  1.705e-02  -0.454 0.650062    
+    MetroOpen:as.factor(city_num)25 -5.436e-03  1.705e-02  -0.319 0.749812    
+    MetroOpen:as.factor(city_num)26 -1.993e-02  1.705e-02  -1.169 0.242433    
+    MetroOpen:as.factor(city_num)27 -7.798e-02  1.705e-02  -4.574 4.80e-06 ***
+    MetroOpen:as.factor(city_num)28 -1.324e-01  1.705e-02  -7.769 8.03e-15 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 0.3458 on 69125 degrees of freedom
+      (5153 observations deleted due to missingness)
+    Multiple R-squared:  0.253, Adjusted R-squared:  0.2525 
+    F-statistic: 487.7 on 48 and 69125 DF,  p-value: < 2.2e-16
 
 ## Creating a Map and Drawing Conclusions
 

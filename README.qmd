@@ -225,7 +225,7 @@ conststart<-as.Date("2005-03-01", format='%Y-%m-%d')
 poldate<-as.Date("2004-01-21", format='%Y-%m-%d')
 ```
 
-We now add variables that will be used for the regression. we have a policy variable that would be a 1 when it is active and 0 when it is not. Like with with Metro open, it just states which dates the metro stations where open or not. other variables are temperature, wind, humidity and time variable.
+We now add variables that will be used for the regression. we have a policy variable that would be a 1 when it is active and 0 when it is not. Like with Metro open, it just states which dates the metro stations where open or not. other variables are temperature, wind, humidity and time variable.
 
 ```{r}
 df3<-df2 %>%
@@ -250,15 +250,17 @@ df3<-df2 %>%
   mutate(MetroTime=MetroOpen*t, MetroTime2=MetroOpen*t2, MetroTime3=MetroOpen*t3, MetroTime4=MetroOpen*t4)
 ```
 
-Our first simple regression is just to see the effect on PM2.5 when the metro is open. this is not a good model as it only considers one variable. we would need to add more variables to see if any hidden variables might be affecting the levels of pollution in our areas. so we begin to add more regression to see how the variable "Metro Open" changes with each regression and added variable.
+Our first simple regression is just to see the effect on PM2.5 when the metro is open. this is not a good model as it only considers one variable. we would need to add more variables to see if any hidden variables might be affecting the levels of pollution in our areas. so we begin to add more to the regression to see how the variable "Metro Open" changes with each regression and added variable.
 
 ```{r}
 #simple regression
-summary(m1<-lm(log(pm25) ~ MetroOpen , data=df3))
-
 summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month), data=df3))
 
-summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +lag_temp+lag_wind+lag_hum+construction +policy, data=df3))
+summary(m1<-lm(log(pm25) ~ MetroOpen + as.factor(dow) + as.factor(month) +Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction, data=df3))
+
+summary(m1<-lm(log(pm25) ~ MetroOpen +Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
+
+summary(m1<-lm(log(pm25) ~ MetroOpen:as.factor(city_num)+Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
 ```
 
 ## Creating a Map and Drawing Conclusions
