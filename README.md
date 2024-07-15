@@ -30,6 +30,7 @@ library("tidyverse")
 library("knitr") 
 library("terra") 
 library("maptiles")
+library("RColorBrewer")
 ```
 
 - Timeline of interest
@@ -340,9 +341,9 @@ poldate<-as.Date("2004-01-21", format='%Y-%m-%d')
 
 We now add variables that will be used for the regression. we have a
 policy variable that would be a 1 when it is active and 0 when it is
-not. Like with with Metro open, it just states which dates the metro
-stations where open or not. other variables are temperature, wind,
-humidity and time variable.
+not. Like with Metro open, it just states which dates the metro stations
+where open or not. other variables are temperature, wind, humidity and
+time variable.
 
 ``` r
 df3<-df2 %>%
@@ -371,7 +372,7 @@ Our first simple regression is just to see the effect on PM2.5 when the
 metro is open. this is not a good model as it only considers one
 variable. we would need to add more variables to see if any hidden
 variables might be affecting the levels of pollution in our areas. so we
-begin to add more regression to see how the variable “Metro Open”
+begin to add more to the regression to see how the variable “Metro Open”
 changes with each regression and added variable.
 
 ``` r
@@ -759,6 +760,33 @@ points(y, col = "blue", cex=3)
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-12-1.png)
+
+## Comparing Stations via Line Graph
+
+To show the difference in pollution levels between a station in central
+Phoenix (station 8 in the following plot) and a station in Mesa (station
+27 in the plot), we made a line graph showing the levels in each station
+and added a line of best fit to show that the Phoenix station saw
+consistently more pollution. The vertical black line marks the opening
+date of the light rail stations.
+
+``` r
+df2<-df %>% filter(city_num==8 | city_num==27) %>% mutate(date = as.Date(date)) %>% 
+  mutate(city_num2 = as.character(paste0(city_num, " line")))
+
+pal<-c("red","blue","lightblue","orange")
+
+ggplot(df2, aes(x=date, y=pm25, group=city_num)) + 
+  geom_line(aes(color=as.factor(city_num))) +
+  geom_smooth(aes(color=as.factor(city_num2))) +
+  geom_vline(xintercept=as.numeric(as.Date("2008-01-01"))) +
+  scale_color_manual(values=pal) + theme_bw() + labs(color = "Station Number") +
+  xlab("Date") + ylab("PM2.5 Level")
+```
+
+    `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+
+![](README_files/figure-commonmark/unnamed-chunk-13-1.png)
 
 ## Conclusions
 

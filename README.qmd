@@ -21,6 +21,7 @@ library("tidyverse")
 library("knitr") 
 library("terra") 
 library("maptiles")
+library("RColorBrewer")
 ```
 
 -   Timeline of interest
@@ -309,6 +310,26 @@ plot(cities_coef,
 
 points(y, col = "blue", cex=3)
 ```
+
+## Comparing Stations via Line Graph
+
+To show the difference in pollution levels between a station in central Phoenix (station 8 in the following plot) and a station in Mesa (station 27 in the plot), we made a line graph showing the levels in each station and added a line of best fit to show that the Phoenix station saw consistently more pollution. The vertical black line marks the opening date of the light rail stations.
+
+```{r}
+df2<-df %>% filter(city_num==8 | city_num==27) %>% mutate(date = as.Date(date)) %>% 
+  mutate(city_num2 = as.character(paste0(city_num, " line")))
+
+pal<-c("red","blue","lightblue","orange")
+
+ggplot(df2, aes(x=date, y=pm25, group=city_num)) + 
+  geom_line(aes(color=as.factor(city_num))) +
+  geom_smooth(aes(color=as.factor(city_num2))) +
+  geom_vline(xintercept=as.numeric(as.Date("2008-01-01"))) +
+  scale_color_manual(values=pal) + theme_bw() + labs(color = "Station Number") +
+  xlab("Date") + ylab("PM2.5 Level")
+
+```
+
 
 ## Conclusions
 
