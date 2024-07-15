@@ -37,6 +37,7 @@ df3<-df2 %>%
 ```
 
 ```{r}
+library("knitr")
 summary(m1<-lm(log(pm25) ~ MetroOpen:as.factor(city_num)+Tair_f_tavg+lag_temp+lag_temp2 + lag_temp3 + lag_temp4 +Wind_f_tavg+lag_wind+ lag_wind2 + lag_wind3 + lag_wind4+Qair_f_tavg+lag_hum+lag_hum2 + lag_hum3 + lag_hum4+construction+is_holiday+t+t2+t3+t4 , data=df3))
 
 len_coef<-length(coef(m1))
@@ -66,23 +67,14 @@ c1df<-as.data.frame(c1)
 Attach data to shapefiles
 
 ```{r}
-coef2<-c(coef)
+coef2<-c(coef)*100
 coefdf<-as.data.frame(coef2)
 cities_coef<-cbind(c2, coefdf)
 ```
 
 Make a map of the results
 
-Tryout different color palettes [here.](https://rdrr.io/cran/terra/man/mappal.html)
-
-```{r}
-plot(cities_coef, 
-     "coef2",
-     type="interval",
-     breaks=c(-0.1, 0, 0.1, 0.2),
-     col=map.pal("grass"),
-     main="Average PM2.5 Changes (in Percents) Due to Light Rail Openings")
-```
+Tryout different color palettes [here](https://rdrr.io/cran/terra/man/mappal.html)
 
 Save the map as an image file
 
@@ -92,8 +84,8 @@ png(filename="regression_map.png", width=1000, height=700, units="px")
 plot(cities_coef, 
      "coef2",
      type="interval",
-     breaks=c(-0.1, 0, 0.1, 0.2),
-     col=map.pal("grass"),
+     breaks=c(-10, -5, 0, 5, 10, 15, 20),
+     col=map.pal("reds"),
      main="Average PM2.5 Changes (in Percents) \n Due to Light Rail Openings")
 
 dev.off()
