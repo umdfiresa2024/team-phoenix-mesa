@@ -1,45 +1,38 @@
 # Progress Report
-William & Sebastian
+William Amorosi & Sebastian Remond
 
 ## Research Question
 
-- What is the impact of air pollution caused by light rail stations on
-  demographics in Phoenix and Mesa?
+- What is the impact of light rail openings on air pollution near its
+  stations?
 
 ## Hypothesis
 
-- The Light Rail in Phoenix-Mesa should help alleviate the amount of
-  PM2.5 being released into the air, helping decrease air quality
-  diseases around the area. Phoenix-Mesa has seen an increase in
-  population, it has had a 16.31% increase in population from 2004 to
-  2012, increasing further as the years progressed. this increase in
-  population is enough to congest roads and increase the demand for
-  power to provide to the citizens. All of this can increase the levels
-  of PM2.5. the light rail will help alleviate the by delivering faster,
-  community transportation that would decrease the number of cars in the
-  streets. With fewer cars in the streets, roads can help decongest
-  faster. So Overall, the impact of the light rail on air pollution in
-  the Phoenix-Mesa region (Maricopa County) will increase as more people
-  use the light rail, further reducing one of their biggest contributors
-  of PM2.5 pollution.
+- The introduction of the Valley Metro Light Rail in Phoenix-Mesa is
+  expected to help alleviate the amount of PM2.5 released into the air,
+  which would help decrease air quality diseases in the area.
+  Phoenix_Mesa has experienced a significant increase in population,
+  with a 16.31% rise from 2004 to 2012 (U.S Census Bureau, 2024), and
+  the population keeps on rising. This population growth has led to
+  congested roads and an increased demand for power. Both of these
+  factors can contribute to higher levels of PM2.5 in the air. The
+  Valley Metro Light Rail can help mitigate this by providing faster
+  public transportation and helping reduce the number of cars on roads.
+  With fewer cars in the streets, roads can help decongest faster.
+  Overall, the impact of the light rail on air pollution in the
+  Phoenix-Mesa region (Maricopa County) will increase as more people use
+  the light rail, further reducing one of their biggest contributors to
+  PM2.5 pollution.
 
 ## Data
-
-``` r
-library("tidyverse") 
-library("knitr") 
-library("terra") 
-library("maptiles")
-library("RColorBrewer")
-```
 
 - Timeline of interest
 
   - Given the time frame of the data we have access to from NASA, the
     only stations that existed then all opened on December 27th, 2008.
-    We want to track the pollution in an equal timeframe before and
-    after the opening, so we chose the timeframe of January 1st, 2004 to
-    January 1st, 2012
+    We want to track the pollution in an equal time frame before and
+    after the opening, so we chose the time frame of January 1st, 2004
+    to January 1st, 2012
 
 - Station locations
 
@@ -91,10 +84,10 @@ library("RColorBrewer")
   County, this is the Phoenix-Mesa area we are focusing on. According to
   Maricopa’s official website, some of the biggest contributors to PM2.5
   pollution include wood burning, power plants, congested highways,
-  construction sites, and unpaved roads. Using the same technique of
-  acquiring their coordinates from Google API, we can make a table that
-  contains some of the biggest contributors around this county, some
-  more centralized in the city than others.
+  construction sites, and unpaved roads (Maricopa County, n.d). Using
+  the same technique of acquiring their coordinates from Google API, we
+  can make a table that contains some of the biggest contributors around
+  this county, some more centralized in the city than others.
 
 ``` r
 sources <- read.csv("Poll_Coordinates.csv") %>%     
@@ -133,11 +126,7 @@ df2<-sources |>   select(lon2, lat2)
 #converts df into a spatvector 
 x <- vect(df, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ") 
 y <- vect(df2, geom=c("lon2", "lat2"), crs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ") 
-#these are the stations  plot(x) #these are our sources of Pollution in Maricopa County 
-plot(y) 
 ```
-
-![](README_files/figure-commonmark/unnamed-chunk-4-1.png)
 
 This would then put buffers over our stations with a 1000m radius. We
 get a more complete map by combining a map background, our points, and
@@ -146,12 +135,6 @@ their station buffers.
 ``` r
 #create a 1 km (1000 meter) buffer (radius)  
 pts_buffer<-buffer(x, width = 400) 
-plot(pts_buffer)   
-```
-
-![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
-
-``` r
 #approximate size of the background 
 extent<-buffer(x, width = 400)  
 bg <- get_tiles(ext(extent))  
@@ -162,7 +145,7 @@ points(x, col = "red")
 points(y, col = "blue") 
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-5-2.png)
+![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
 
 ``` r
 outfile <- "buffer.shp" 
@@ -176,10 +159,10 @@ it comes from stations, power plants, and highways or the effects of
 policies that might affect these levels of pollution, we need
 meteorological data. we will be using data from NASA, through its Land
 Data Assimilation System (LDAS) and its global counterpart (GLDAS).
-These data can be gathered from NASA’s website. We downloaded all
-relevant data into a Google Drive folder, ranging from the dates of
-01/01/2000 to 30/12/20214. This already covers our original date range
-of 01/01/2000 to 01/01/2012.
+These data can be gathered from NASA’s website listed in the reference
+section. We downloaded all relevant data into a Google Drive folder,
+ranging from the dates of 01/01/2000 to 30/12/20214. This already covers
+our original date range of 01/01/2000 to 01/01/2012.
 
 The code below opens this data and loops through its files to only get
 the relevant dates. Next, it uses the buffer zones around the train
@@ -216,15 +199,16 @@ write.csv(output, "met_data.csv", row.names=F)
 
 ## **Gathering PM2.5 Data**
 
-Similarly to Meteorology data, we need to also gather PM2.5 to see the
+Similarly to meteorology data, we need to also gather PM2.5 to see the
 changes these stations have on this type of pollution. we focus on the
-same time frame as meteorology data. Our data comes from NASA. We
-downloaded the data into another Google Drive folder. we then use a
-nested for-loop to go through each folder (which are months), and go
-through each day (they are TIF files containing satellite images of the
-US). The buffers we used for the meteorology data are also used again to
-focus on those parts of the map. We put all these daily files into a
-folder that will be used later on.
+same time frame as meteorology data. Our data comes from NASA’s
+Socioeconomic Data and Application Center (SEDAC). We downloaded the
+data into another Google Drive folder. we then use a nested for-loop to
+go through each folder (which are months), and go through each day (they
+are TIF files containing satellite images of the US). The buffers we
+used for the meteorology data are also used again to focus on those
+parts of the map. We put all these daily files into a folder that will
+be used later on.
 
 ``` r
 pts_buffer <- vect("buffer.shp")
@@ -276,7 +260,7 @@ for (m in 1:length(months)) {
 }
 ```
 
-## **Combining all data gathered**
+## **Combining All Data Gathered**
 
 Now that we have station locations, sources of pollution locations,
 meteorology data, and PM2.5 data, we combine all of these into one
@@ -314,16 +298,21 @@ merge2<-merge(merge1, dfm, by.x="date", by.y="date")
 write.csv(merge2, "Big_Data.csv")
 ```
 
-## Modeling and using DB-OLS regression
+## Modeling and Using DB-OLS Regression
 
-we now want to create a model that would give us a coefficient that we
-can use to tell the relationship between the pollution levels and the
-metro stations opening. we will create our dates for the start of the
-analysis to the end of it, the opening date of the stations, when
-construction began for the stations, and a policy that was enacted
-around that same time. df2 has our initial big data that was combined
-above, but it removes unnecessary columns that wont be used on the
-regression.
+Our goal now is to create a Discontinuity Based- Ordinary Least Square
+(DB-OLS) model, which is discussed in ‘Green Infrastructure: The Effects
+of Urban Rail Transit on Air Quality’ by Chen and Walley (2012). This
+model assumes that without the metro opening, there wouldn’t have been a
+sudden change in air quality in Taipei, holding everything else
+constant. Similarly, we are making the same assumption with the Valley
+Metro to see if its opening does cause a drastic change in PM2.5
+pollution. We will establish our dates for the start of the analysis to
+the end of it, the opening date of the stations, when construction began
+for the stations, and a policy that was enacted around that same time.
+df2 contains our initial comprehensive data that was combined earlier,
+but it has been streamlined by removing unnecessary columns that won’t
+be used in the regression
 
 ``` r
 df<-read.csv("Big_Data.csv")
@@ -788,14 +777,47 @@ ggplot(df2, aes(x=date, y=pm25, group=city_num)) +
 
 ![](README_files/figure-commonmark/unnamed-chunk-13-1.png)
 
-## Conclusions
+## Conclusion
 
 As shown, the stations in the middle of the line near the center of
 Phoenix saw an increase in air pollution, while stations closer to the
 ends of the line saw decreases. After a little more research, we
 discovered that this was likely due to the surrounding geography. The
 mountains around Phoenix meant that air pollution in the area would get
-trapped in the “bowl” that the mountains created, which would make the
-air quality worse over time. The stations near the ends of the line are
+trapped in the “bowl” that the mountains created, making the air quality
+worse over time (ADEQ, n.d). The stations near the ends of the line are
 not as affected by this phenomenon, and we can see that the light rails
-did have an effect decreasing the air pollution in those areas.
+did have an effect in decreasing the air pollution in those areas.
+
+## References
+
+1.  U.S. Census Bureau. (2024). Resident Population in
+    Phoenix-Mesa-Scottsdale, AZ (MSA) \[Data set\]. Federal Reserve Bank
+    of St. Louis. Retrieved June 27, 2024, from
+    <https://fred.stlouisfed.org/series/PHXPOP.>
+
+2.  Chen, Y., & Whalley, A. (2012). Green Infrastructure: The Effects of
+    Urban Rail Transit on Air Quality. *American Economic Journal:
+    Economic Policy*, *4*(1), 58–97.
+    <http://www.jstor.org/stable/41330431>  
+
+3.  ADEQ Arizona Department of Environmental Quality. (n.d.). What Is an
+    Inversion and How Does It Affect Air Quality? \[Web page\].
+    Azdeq.gov. Retrieved from
+    <https://azdeq.gov/what-inversion-and-how-does-it-affect-air-quality>
+
+4.  NASA Global Land Data Assimilation System Version 2 (GLDAS-2).
+    (n.d.). Meteorological Data. NASA Hydrology Data and Information
+    Services Center (HDISC). Retrieved from
+    <https://ldas.gsfc.nasa.gov/gldas>
+
+5.  NASA Socioeconomic Data and Applications Center (SEDAC). (n.d.).
+    Daily and Annual PM2.5 Concentrations for the Contiguous United
+    States, 1-km Grids, v1 (2000 - 2016). NASA Hydrology Data and
+    Information Services Center (HDISC). Retrieved from
+    <https://sedac.ciesin.columbia.edu/data/set/aqdh-pm2-5-o3-no2-concentrations-zipcode-contiguous-us-2000-2016>
+
+6.  Maricopa County. (n.d.). Outreach. Retrieved from
+    <https://www.maricopa.gov/5914/Outreach>
+
+    ‌
